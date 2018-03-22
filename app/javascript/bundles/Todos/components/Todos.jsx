@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import AddTodo from './AddTodo';
+
 class Todos extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     todos: PropTypes.array.isRequired
   }
 
@@ -13,23 +15,30 @@ class Todos extends React.Component {
     }
   }
 
+  addTodoToList = (newTodo) => {
+    this.setState({ todos: [...this.state.todos, newTodo] });
+  }
+
   render() {
+    console.log(this.state.todos)
     return (
       <div>
         <h1>Your Todos!</h1>
         <div>
-          <ul>
+          <ul style={{ marginBottom: "5px" }}>
             {this.state.todos.map(todo => {
               return (
-                <li>
-                  <div>{todo.title}</div><hr/>
-                  <div>{todo.description}</div><br/>
+                <li key={todo.title} style={{ marginBottom: "5px" }}>
+                  <div style={{ paddingBottom: "5px", borderBottom: "1px solid LightGray" }}>{todo.title}</div>
+                  <div style={{ paddingTop: "5px" }}>{todo.description}</div><br/>
                   <div>{todo.deadline}</div>
                 </li>
               )
             })}
           </ul>
         </div>
+        <hr/>
+        <AddTodo saveTodo={this.addTodoToList}/>
       </div>
     )
   }
